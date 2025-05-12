@@ -1,0 +1,36 @@
+.navbar {
+    background-color: #333;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .navbar-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 16px;
+  }
+  
+  .navbar-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .navbar-auth {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .navbar-auth a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
