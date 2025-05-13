@@ -9,14 +9,14 @@ const router = express.Router();
 
 // CREATE Product
 router.post('/', authenticateUser, (req, res) => {
-  const { name, price, category } = req.body;
+  const { name, price, category, image } = req.body;
 
-  if (!name || !price || !category) {
-    return res.status(StatusCodes.BAD_REQUEST).send({ message: "All fields required" });
+  if (!name || !price || !category || !image) {
+    return res.status(StatusCodes.BAD_REQUEST).send({ message: "All fields including image are required" });
   }
 
-  const qry = `INSERT INTO products(name, price, category) VALUES (?, ?, ?)`;
-  conn.query(qry, [name, price, category], (err, result) => {
+  const qry = `INSERT INTO products(name, price, category, image) VALUES (?, ?, ?, ?)`;
+  conn.query(qry, [name, price, category, image], (err, result) => {
     if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Insert failed" });
     res.status(StatusCodes.CREATED).send({ message: "Product created" });
   });
@@ -75,7 +75,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// ✅ MOVE THIS ABOVE the :id route
+// GET Categories
 router.get('/categories', (req, res) => {
   const qry = "SELECT DISTINCT category FROM products";
   conn.query(qry, (err, results) => {
@@ -87,7 +87,7 @@ router.get('/categories', (req, res) => {
   });
 });
 
-// ✅ FIXED POSITION: GET Product by ID
+// GET Product by ID
 router.get('/:id', (req, res) => {
   const qry = 'SELECT * FROM products WHERE id = ?';
   conn.query(qry, [req.params.id], (err, result) => {
@@ -100,15 +100,15 @@ router.get('/:id', (req, res) => {
 
 // UPDATE Product
 router.put('/:id', authenticateUser, (req, res) => {
-  const { name, price, category } = req.body;
+  const { name, price, category, image } = req.body;
   const id = req.params.id;
 
-  if (!name || !price || !category) {
-    return res.status(StatusCodes.BAD_REQUEST).send({ message: "All fields required for update" });
+  if (!name || !price || !category || !image) {
+    return res.status(StatusCodes.BAD_REQUEST).send({ message: "All fields including image are required for update" });
   }
 
-  const qry = `UPDATE products SET name=?, price=?, category=? WHERE id=?`;
-  conn.query(qry, [name, price, category, id], (err, result) => {
+  const qry = `UPDATE products SET name=?, price=?, category=?, image=? WHERE id=?`;
+  conn.query(qry, [name, price, category, image, id], (err, result) => {
     if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Update failed" });
     res.status(StatusCodes.OK).send({ message: "Product updated" });
   });
